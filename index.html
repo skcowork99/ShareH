@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cowork 應用分享平台</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ── 日式清新配色 ── */
+  /* 背景：温かみのある和紙クリーム */
+  --bg: #f5f3ee;
+  --surface: #fffffe;
+  --surface-2: #faf8f4;
+  --border: #e6dfd4;
+  --border-soft: #ede8e0;
+
+  /* 文字：墨色系 */
+  --ink: #2b2520;
+  --ink-2: #4a4038;
+  --ink-3: #7c7068;
+  --ink-4: #a89e94;
+
+  /* 主色：浅葱（あさぎ）淡いティール */
+  --accent: #4d8b9a;
+  --accent-soft: #e8f4f6;
+
+  /* 補色 */
+  --up: #b85c5c;          /* 紅梅 */
+  --up-soft: #f7eaea;
+  --down: #4d7a8a;        /* 浅葱 dark */
+  --down-soft: #e8f0f4;
+  --green: #5e8c6a;       /* 苔緑 */
+  --green-soft: #eaf2eb;
+  --purple: #7d6e9e;      /* 藤 */
+  --purple-soft: #f0edf7;
+  --orange: #b07840;      /* 黄土 */
+  --orange-soft: #f5eedd;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+  --shadow-xs: 0 1px 3px rgba(43,37,32,.05);
+  --shadow-sm: 0 2px 8px rgba(43,37,32,.07), 0 1px 2px rgba(43,37,32,.04);
+  --shadow-md: 0 4px 18px rgba(43,37,32,.09), 0 1px 4px rgba(43,37,32,.05);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: "Noto Sans TC","Microsoft JhengHei",-apple-system,"Segoe UI",Inter,Arial,sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum" 1, "kern" 1;
+}
+
+/* ─── Page Header ─── */
+.page-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 32px 16px;
+  position: sticky; top: 0; z-index: 100;
+  backdrop-filter: saturate(180%) blur(8px);
+}
+.header-inner {
+  max-width: 1320px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark {
+  width: 38px; height: 38px; border-radius: 11px;
+  background: linear-gradient(135deg, #4d8b9a, #6baab8);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 17px; letter-spacing: -.5px;
+  box-shadow: 0 2px 8px rgba(77,139,154,.30);
+  flex-shrink: 0;
+}
+.brand h1 { font-size: 18px; font-weight: 700; letter-spacing: -.2px; color: var(--ink); }
+.brand .sub { font-size: 12px; color: var(--ink-3); margin-top: 1px; }
+.header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.stat-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: var(--radius-pill);
+  font-size: 12px; color: var(--ink-3);
+}
+.stat-pill strong { color: var(--ink); font-weight: 700; font-size: 14px; }
+.date-pill {
+  background: var(--accent-soft); color: var(--accent);
+  padding: 6px 14px; border-radius: var(--radius-pill);
+  font-weight: 600; font-size: 12px; letter-spacing: .2px;
+}
+
+/* ─── Main Layout ─── */
+.main-wrap {
+  max-width: 1320px; margin: 0 auto;
+  padding: 28px 32px 60px;
+}
+
+/* ─── Hero Stats ─── */
+.hero-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px; margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 20px;
+  box-shadow: var(--shadow-xs);
+  display: flex; align-items: center; gap: 14px;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.stat-card:hover {
+  border-color: rgba(77,139,154,.2);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+.stat-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.stat-icon.blue { background: var(--accent-soft); }
+.stat-icon.green { background: var(--green-soft); }
+.stat-icon.purple { background: var(--purple-soft); }
+.stat-icon.orange { background: var(--orange-soft); }
+/* stat icons 換成配色對應的 stroke */
+.stat-icon.blue svg { stroke: var(--accent); }
+.stat-icon.green svg { stroke: var(--green); }
+.stat-icon.purple svg { stroke: var(--purple); }
+.stat-icon.orange svg { stroke: var(--orange); }
+.stat-num { font-size: 26px; font-weight: 700; color: var(--ink); letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
+.stat-label { font-size: 12px; color: var(--ink-3); margin-top: 1px; }
+
+/* ─── Toolbar ─── */
+.toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 18px;
+}
+.search-wrap {
+  position: relative; flex: 1; max-width: 360px;
+}
+.search-wrap svg {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--ink-4); pointer-events: none;
+}
+.search-input {
+  width: 100%; padding: 9px 14px 9px 38px;
+  border: 1px solid var(--border); border-radius: var(--radius-pill);
+  background: var(--surface); font-family: inherit; font-size: 13px;
+  color: var(--ink); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.search-input:focus {
+  border-color: rgba(77,139,154,.4);
+  box-shadow: 0 0 0 3px rgba(77,139,154,.09);
+}
+.search-input::placeholder { color: var(--ink-4); }
+
+.view-toggle { display: flex; gap: 2px; }
+.view-btn {
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 8px 10px; cursor: pointer; color: var(--ink-3);
+  font-size: 13px; transition: all .15s;
+  display: flex; align-items: center;
+}
+.view-btn:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.view-btn:last-child { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.view-btn.active {
+  background: #4d8b9a; border-color: #4d8b9a;
+  color: #fff;
+}
+
+/* ─── Dept Tabs ─── */
+.dept-tabs {
+  display: flex; gap: 2px; flex-wrap: wrap;
+  background: var(--surface-2); padding: 4px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  margin-bottom: 22px;
+}
+.dept-btn {
+  background: transparent; border: none;
+  padding: 7px 16px; font-size: 13px; font-weight: 600;
+  cursor: pointer; color: var(--ink-3);
+  border-radius: 6px; font-family: inherit;
+  transition: all .15s ease; display: flex; align-items: center; gap: 6px;
+}
+.dept-btn:hover { color: var(--ink); background: rgba(255,255,255,.7); }
+.dept-btn.active { color: var(--ink); background: var(--surface); box-shadow: var(--shadow-xs); }
+.dept-btn .count {
+  font-size: 10px; font-weight: 700;
+  background: var(--accent-soft); color: #3d7a8a;
+  padding: 1px 6px; border-radius: var(--radius-pill);
+}
+.dept-btn.active .count {
+  background: #4d8b9a; color: #fff;
+}
+
+/* ─── Card Grid ─── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+.card-grid.list-view { grid-template-columns: 1fr; }
+
+/* ─── App Card ─── */
+.app-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-xs);
+  overflow: hidden;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+  cursor: pointer; position: relative;
+}
+.app-card::after {
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #4d8b9a, #7d6e9e);
+  border-radius: var(--radius) 0 0 var(--radius);
+  opacity: 0; transform: scaleY(.6);
+  transition: opacity .2s, transform .2s;
+}
+.app-card:hover {
+  border-color: rgba(77,139,154,.32);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md), 0 0 0 3px rgba(77,139,154,.08);
+}
+.app-card:hover::after { opacity: 1; transform: scaleY(1); }
+
+.card-header {
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.card-avatar {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px; font-weight: 700; color: #fff;
+  flex-shrink: 0; letter-spacing: -.5px;
+}
+.card-meta { flex: 1; min-width: 0; }
+.card-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.card-dept-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.dept-chip {
+  font-size: 10px; font-weight: 700; letter-spacing: .3px;
+  padding: 2px 7px; border-radius: var(--radius-pill);
+  text-transform: uppercase; flex-shrink: 0;
+}
+/* 日式清新：単位バッジ配色 */
+.dept-chip.mis  { background: #e8f4f6; color: #3d7a8a; }       /* 浅葱 */
+.dept-chip.biz  { background: #eaf2eb; color: #4d7a58; }       /* 苔緑 */
+.dept-chip.fin  { background: var(--purple-soft); color: #6a5d8a; }  /* 藤 */
+.dept-chip.hr   { background: #f5ede8; color: #8a5040; }       /* 紅梅 */
+.dept-chip.prod { background: #edf3e8; color: #4a6e3a; }       /* 若草 */
+.dept-chip.it   { background: #f5f0e8; color: #8a6830; }       /* 黄土 */
+.person-title { font-size: 11px; color: var(--ink-4); }
+
+.card-body { padding: 14px 18px; }
+.card-app-title {
+  font-size: 14px; font-weight: 700; color: var(--ink);
+  margin-bottom: 6px; line-height: 1.4;
+}
+.card-desc {
+  font-size: 12.5px; color: var(--ink-3); line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-footer {
+  padding: 10px 18px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.tag {
+  font-size: 10px; font-weight: 600; letter-spacing: .2px;
+  padding: 3px 8px; border-radius: var(--radius-pill);
+  background: var(--surface-2); color: var(--ink-3);
+  border: 1px solid var(--border-soft);
+}
+.card-date { font-size: 11px; color: var(--ink-4); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+.card-action {
+  display: flex; align-items: center; gap: 8px;
+  margin: 0 18px 14px;
+  padding: 9px 14px; border-radius: var(--radius-sm);
+  background: var(--accent-soft); border: 1px solid rgba(77,139,154,.15);
+  font-size: 12.5px; font-weight: 600; color: #3d7a8a;
+  transition: background .15s, border-color .15s;
+}
+.app-card:hover .card-action { background: rgba(77,139,154,.12); border-color: rgba(77,139,154,.25); }
+.card-action svg { flex-shrink: 0; }
+.card-action-text { flex: 1; }
+.card-action-arrow { margin-left: auto; opacity: .6; }
+
+/* ─── List View ─── */
+.card-grid.list-view .app-card { cursor: default; }
+.card-grid.list-view .app-card:hover { transform: translateY(-1px); }
+.list-row {
+  display: flex; align-items: center; gap: 16px; padding: 16px 20px;
+  flex-wrap: wrap;
+}
+.list-row .card-avatar { width: 36px; height: 36px; font-size: 15px; border-radius: 9px; }
+.list-row .card-meta { flex: 0 0 auto; min-width: 140px; }
+.list-row .list-content { flex: 1; min-width: 200px; }
+.list-row .list-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.list-row .list-desc { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+.list-row .list-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.list-view-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 14px; border-radius: var(--radius-pill);
+  background: var(--accent-soft); border: 1px solid rgba(77,139,154,.15);
+  color: #3d7a8a; font-size: 12px; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+  transition: background .15s;
+  font-family: inherit;
+}
+.list-view-btn:hover { background: rgba(77,139,154,.15); }
+
+/* ─── Modal ─── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(15,23,42,.5); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; opacity: 0; pointer-events: none;
+  transition: opacity .2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 18px; width: 100%; max-width: 540px;
+  box-shadow: 0 20px 60px rgba(15,23,42,.15);
+  overflow: hidden;
+  transform: translateY(12px) scale(.97); transition: transform .25s;
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+.modal-header {
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.modal-avatar {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.modal-info { flex: 1; }
+.modal-title { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.modal-sub { font-size: 12.5px; color: var(--ink-3); }
+.modal-close {
+  background: var(--surface-2); border: 1px solid var(--border);
+  width: 30px; height: 30px; border-radius: 50%;
+  cursor: pointer; color: var(--ink-3); font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s; flex-shrink: 0; line-height: 1;
+}
+.modal-close:hover { background: var(--up-soft); color: var(--up); border-color: #f5d5d5; }
+.modal-body { padding: 20px 24px; }
+.modal-section-label {
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .6px; color: var(--ink-4); margin-bottom: 6px;
+}
+.modal-desc { font-size: 13.5px; color: var(--ink-2); line-height: 1.7; margin-bottom: 18px; }
+.modal-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.modal-tag {
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  font-size: 11px; font-weight: 600;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--ink-3);
+}
+.modal-files { display: flex; flex-direction: column; gap: 8px; }
+.file-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  background: var(--surface-2); border: 1px solid var(--border);
+  text-decoration: none; color: var(--ink-2);
+  transition: all .15s; cursor: pointer;
+}
+.file-item:hover {
+  background: var(--accent-soft); border-color: rgba(77,139,154,.2); color: #3d7a8a;
+}
+.file-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 14px;
+}
+.file-icon.html { background: #e0f2fe; }
+.file-icon.xlsx { background: var(--green-soft); }
+.file-icon.pdf { background: var(--up-soft); }
+.file-icon.pptx { background: var(--orange-soft); }
+.file-name { flex: 1; font-size: 13px; font-weight: 500; }
+.file-size { font-size: 11px; color: var(--ink-4); }
+.file-arrow { color: var(--ink-4); }
+.file-item:hover .file-arrow { color: var(--accent); }
+
+/* ─── Prompt Block ─── */
+.prompt-box {
+  background: #f8f7f4;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.prompt-text {
+  font-size: 12.5px; color: var(--ink-2); line-height: 1.75;
+  white-space: pre-wrap; word-break: break-all;
+  font-family: "Noto Sans TC","Microsoft JhengHei",sans-serif;
+  max-height: 120px; overflow-y: auto;
+}
+.prompt-copy-btn {
+  position: absolute; top: 8px; right: 8px;
+  display: flex; align-items: center; gap: 4px;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  background: var(--surface); border: 1px solid var(--border);
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  cursor: pointer; font-family: inherit;
+  transition: all .15s;
+}
+.prompt-copy-btn:hover { background: var(--accent-soft); color: var(--accent); border-color: rgba(77,139,154,.25); }
+.prompt-copy-btn.copied { background: var(--green-soft); color: var(--green); border-color: rgba(94,140,106,.25); }
+
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border-soft); text-align: right; }
+.modal-btn-close {
+  padding: 8px 20px; border-radius: var(--radius-pill);
+  background: var(--surface-2); border: 1px solid var(--border);
+  font-size: 13px; font-weight: 600; color: var(--ink-2);
+  cursor: pointer; font-family: inherit; transition: all .15s;
+}
+.modal-btn-close:hover { background: var(--border); }
+
+/* ─── Empty State ─── */
+.empty-state {
+  text-align: center; padding: 60px 20px;
+  color: var(--ink-3); display: none;
+}
+.empty-state.show { display: block; }
+.empty-icon { font-size: 40px; margin-bottom: 12px; opacity: .4; }
+.empty-title { font-size: 16px; font-weight: 600; color: var(--ink-2); margin-bottom: 4px; }
+.empty-sub { font-size: 13px; }
+
+/* ─── Footer ─── */
+.footer {
+  margin-top: 48px; padding: 20px 32px;
+  font-size: 11px; color: var(--ink-4); text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+/* ─── Section Head ─── */
+.section-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.section-head h2 {
+  font-size: 15px; font-weight: 700; color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+}
+.section-head .hint { font-size: 12px; color: var(--ink-4); }
+.results-count {
+  font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: #3d7a8a;
+  padding: 3px 10px; border-radius: var(--radius-pill);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .page-header { padding: 14px 18px 12px; }
+  .main-wrap { padding: 20px 18px 48px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .list-row { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Page Header ─── -->
+<div class="page-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark">共</div>
+      <div>
+        <h1>Cowork 應用分享平台</h1>
+        <div class="sub">公司同仁 AI 應用成果展示</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="stat-pill"><strong id="totalCount">12</strong>&ensp;個應用</div>
+      <div class="stat-pill"><strong id="deptCount">6</strong>&ensp;個單位</div>
+      <div class="date-pill">更新日期&ensp;2026-05-08</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Main ─── -->
+<div class="main-wrap">
+
+  <!-- Hero Stats -->
+  <div class="hero-stats" id="heroStats">
+    <div class="stat-card">
+      <div class="stat-icon blue">
+        <svg width="20" height="20" fill="none" stroke="#3b5bdb" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div>
+        <div class="stat-num" id="stat-people">23</div>
+        <div class="stat-label">參與人員</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">
+        <svg width="20" height="20" fill="none" stroke="#0f9d8a" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <div>
+        <div class="stat-num" id="stat-apps">12</div>
+        <div class="stat-label">應用案例</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple">
+        <svg width="20" height="20" fill="none" stroke="#7c5cff" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div>
+        <div class="stat-num" id="stat-files">38</div>
+        <div class="stat-label">成果檔案</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange">
+        <svg width="20" height="20" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div>
+        <div class="stat-num" id="stat-depts">6</div>
+        <div class="stat-label">涵蓋單位</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" id="searchInput" type="text" placeholder="搜尋人員、應用名稱、說明…">
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="gridViewBtn" title="格狀檢視" onclick="setView('grid')">
+        <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </button>
+      <button class="view-btn" id="listViewBtn" title="列表檢視" onclick="setView('list')">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Dept Tabs -->
+  <div class="dept-tabs" id="deptTabs">
+    <button class="dept-btn active" data-dept="all" onclick="filterDept('all', this)">全部 <span class="count" id="cnt-all">12</span></button>
+    <button class="dept-btn" data-dept="mis" onclick="filterDept('mis', this)">資訊室 <span class="count" id="cnt-mis">3</span></button>
+    <button class="dept-btn" data-dept="biz" onclick="filterDept('biz', this)">業務部 <span class="count" id="cnt-biz">3</span></button>
+    <button class="dept-btn" data-dept="fin" onclick="filterDept('fin', this)">財務部 <span class="count" id="cnt-fin">2</span></button>
+    <button class="dept-btn" data-dept="hr" onclick="filterDept('hr', this)">人資部 <span class="count" id="cnt-hr">2</span></button>
+    <button class="dept-btn" data-dept="prod" onclick="filterDept('prod', this)">生產部 <span class="count" id="cnt-prod">1</span></button>
+    <button class="dept-btn" data-dept="it" onclick="filterDept('it', this)">採購部 <span class="count" id="cnt-it">1</span></button>
+  </div>
+
+  <!-- Section Head -->
+  <div class="section-head">
+    <h2>應用案例 <span id="resultsCountBadge" class="results-count">12 筆</span></h2>
+    <span class="hint" id="filterHint">顯示全部單位</span>
+  </div>
+
+  <!-- Card Grid -->
+  <div class="card-grid" id="cardGrid"></div>
+  <div class="empty-state" id="emptyState">
+    <div class="empty-icon">◇</div>
+    <div class="empty-title">找不到符合條件的應用</div>
+    <div class="empty-sub">請調整搜尋關鍵字或選擇其他單位</div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  Cowork 應用分享平台 &ensp;·&ensp; 新光合纖資訊室維護 &ensp;·&ensp; 2026
+</div>
+
+<!-- ─── Modal ─── -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-avatar" id="modalAvatar"></div>
+      <div class="modal-info">
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-sub" id="modalSub"></div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section-label">應用說明</div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-section-label">標籤</div>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-section-label">使用的 Prompt</div>
+      <div class="prompt-box" id="modalPromptBox">
+        <button class="prompt-copy-btn" id="promptCopyBtn" onclick="copyPrompt()">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          複製
+        </button>
+        <div class="prompt-text" id="modalPrompt"></div>
+      </div>
+      <div class="modal-section-label">成果檔案</div>
+      <div class="modal-files" id="modalFiles"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn-close" onclick="closeModalDirect()">關閉</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ─────────────────────────────────────────
+   Data
+───────────────────────────────────────── */
+const APPS = [
+  {
+    id: 1,
+    dept: 'mis',
+    deptLabel: '資訊室',
+    person: '吳新千',
+    title: '客戶 AO 排名報表自動化',
+    desc: '透過 Cowork 自動從月結 Excel 擷取長纖 005AO 前三大客戶排名，每月自動產出格式化摘要報表，節省人工彙整時間約 2 小時。',
+    tags: ['Excel', '自動化', '月報'],
+    color: ['#4d8b9a', '#6baab8'],   /* 浅葱 */
+    files: [
+      { name: 'co_202605.xlsx', type: 'xlsx', size: '42 KB' },
+      { name: 'co_202604.xlsx', type: 'xlsx', size: '40 KB' },
+    ],
+    prompt: `請幫我從「(月結)長纖-005AO客戶排名.xlsx」中，自動抓出 AO 欄的前三大客戶名稱與利潤金額，產出一份格式化的 Excel 摘要報表，檔名為 co_{年}{月}.xlsx，包含客戶名稱、利潤排名、金額、佔比四個欄位，最後存到我的工作資料夾。`,
+    date: '2026-05-02'
+  },
+  {
+    id: 2,
+    dept: 'mis',
+    deptLabel: '資訊室',
+    person: '林建宏',
+    title: '資訊雙週會自動排程',
+    desc: '整合 Netask EIP 與 Google Calendar，自動計算每月第二、四週週三的會議日期，並排除國定假日自動順延，完成會議室預約與邀請發送。',
+    tags: ['自動化', '行事曆', '會議'],
+    color: ['#4d8b9a', '#6baab8'],
+    files: [
+      { name: '2026_雙週會排程.html', type: 'html', size: '28 KB' },
+    ],
+    prompt: `每個月幫我計算當月的「第二個週三」和「第四個週三」日期，若遇國定假日則自動順延一天。計算完後在 Netask EIP 預約 C3 會議室 09:00–11:00，並在 Google Calendar 建立行程邀請，寄給資訊室所有成員（信件清單如附）。`,
+    date: '2026-04-28'
+  },
+  {
+    id: 3,
+    dept: 'mis',
+    deptLabel: '資訊室',
+    person: '陳柏宇',
+    title: '石化行情日報自動生成',
+    desc: '每日自動抓取 WTI、Brent、PX 等石化原料報價，套用設計系統產出含趨勢圖、漲跌熱力圖的精美 HTML 日報，並自動寄送給相關部門。',
+    tags: ['HTML報表', '石化行情', '日報'],
+    color: ['#4d8b9a', '#6baab8'],
+    files: [
+      { name: '石化行情日報_20260508.html', type: 'html', size: '156 KB' },
+      { name: '石化行情週報_W19.html', type: 'html', size: '210 KB' },
+    ],
+    prompt: `每天早上 8:00 自動抓取今日的 WTI、Brent 原油、PX、MEG 最新報價，與前一日比較計算漲跌幅，產出一份美觀的 HTML 日報，包含趨勢折線圖與漲跌熱力圖，套用日式清新風格設計，最後自動寄送給業務部、財務部主管信箱。`,
+    date: '2026-05-08'
+  },
+  {
+    id: 4,
+    dept: 'biz',
+    deptLabel: '業務部',
+    person: '張雅婷',
+    title: '客戶往來信件摘要助手',
+    desc: '連接 Gmail，自動讀取客戶往來信件，使用 AI 生成重點摘要並分類追蹤，讓業務可快速掌握未回覆項目，提升回覆效率達 35%。',
+    tags: ['Gmail', 'AI摘要', '客戶管理'],
+    color: ['#5e8c6a', '#7aaa88'],   /* 苔緑 */
+    files: [
+      { name: '客戶信件摘要_202605.html', type: 'html', size: '88 KB' },
+    ],
+    prompt: `請連接我的 Gmail，找出過去 7 天內所有客戶往來信件，對每封信用中文生成 3 點重點摘要，並標記「需回覆」、「已確認」、「待處理」三種狀態分類，整理成一份 HTML 報告讓我快速瀏覽所有未處理項目。`,
+    date: '2026-05-05'
+  },
+  {
+    id: 5,
+    dept: 'biz',
+    deptLabel: '業務部',
+    person: '王志偉',
+    title: '銷售業績月報儀表板',
+    desc: '整合各業務銷售資料，自動產出互動式 HTML 儀表板，包含業績趨勢折線圖、客戶貢獻度圓餅圖、達標率 KPI 卡片，支援部門篩選。',
+    tags: ['Dashboard', '業績分析', '視覺化'],
+    color: ['#5e8c6a', '#7aaa88'],
+    files: [
+      { name: '業績月報_202605.html', type: 'html', size: '245 KB' },
+      { name: '業績月報_202604.html', type: 'html', size: '238 KB' },
+    ],
+    prompt: `請讀取「銷售業績.xlsx」，產出一份互動式 HTML 儀表板，包含：月度業績趨勢折線圖、各業務員業績長條圖、客戶貢獻度圓餅圖、達標率 KPI 卡片，支援依月份和業務員篩選，配色用綠色系，輸出為單一 HTML 檔案。`,
+    date: '2026-05-03'
+  },
+  {
+    id: 6,
+    dept: 'biz',
+    deptLabel: '業務部',
+    person: '李美玲',
+    title: '報價單自動生成系統',
+    desc: '輸入客戶名稱、品項與數量，自動帶入最新報價並套用公司 Word 範本產出 .docx 報價單，同時自動建立 Gmail 草稿，一鍵發送。',
+    tags: ['Word', 'Gmail', '自動化'],
+    color: ['#5e8c6a', '#7aaa88'],
+    files: [
+      { name: '報價單範本.docx', type: 'pptx', size: '35 KB' },
+    ],
+    prompt: `我要建立客戶報價單，客戶是「○○公司」，品項為 PP 粒、PE 粒各 10 噸，請自動帶入最新報價，套用「報價單範本.docx」產出正式 Word 檔，同時在 Gmail 建立草稿，主旨格式為「報價單_客戶名_日期」，並將 Word 檔設為附件。`,
+    date: '2026-04-20'
+  },
+  {
+    id: 7,
+    dept: 'fin',
+    deptLabel: '財務部',
+    person: '黃淑芬',
+    title: '應收帳款到期提醒自動化',
+    desc: '每週一自動掃描應收帳款 Excel，找出即將到期與逾期項目，產出彙整報表並自動寄送提醒信給各業務人員，減少人工追蹤錯漏。',
+    tags: ['Excel', '自動化', '財務'],
+    color: ['#7d6e9e', '#9a8ec0'],   /* 藤 */
+    files: [
+      { name: '應收帳款提醒_20260505.xlsx', type: 'xlsx', size: '67 KB' },
+      { name: '逾期帳款分析_202605.html', type: 'html', size: '95 KB' },
+    ],
+    prompt: `每週一早上請自動讀取「應收帳款明細.xlsx」，篩選出「到期日距今 7 天以內」和「已逾期」的項目，產出彙整 Excel 報表（含客戶名、金額、到期日、負責業務），並自動寄送提醒信給對應業務人員，信件內列出該業務負責的逾期帳款明細。`,
+    date: '2026-05-05'
+  },
+  {
+    id: 8,
+    dept: 'fin',
+    deptLabel: '財務部',
+    person: '謝明達',
+    title: '費用報銷申請 PDF 自動填表',
+    desc: '員工填寫費用明細後，Cowork 自動套用費用報銷 PDF 表單格式，產出完整填妥的 PDF 檔案，並附上費用分類統計摘要，加速核銷流程。',
+    tags: ['PDF', '報銷', '財務'],
+    color: ['#7d6e9e', '#9a8ec0'],
+    files: [
+      { name: '費用報銷表_範例.pdf', type: 'pdf', size: '120 KB' },
+    ],
+    prompt: `我本月費用明細如下（交通費 3 筆共 850 元、餐費 2 筆共 620 元、雜費 1 筆 200 元），請套用「費用報銷表單.pdf」，自動填入申請人、部門、費用項目、金額、日期欄位，最後一頁附上費用分類統計摘要，產出完整填妥的 PDF 送核。`,
+    date: '2026-04-18'
+  },
+  {
+    id: 9,
+    dept: 'hr',
+    deptLabel: '人資部',
+    person: '蔡淑惠',
+    title: '員工出勤異常自動偵測',
+    desc: '每日讀取打卡記錄 Excel，自動比對班表，標記遲到、早退、缺勤異常，產出視覺化報表供主管審閱，並整合 Netask 加班申請自動建單。',
+    tags: ['出勤', '異常偵測', 'HR'],
+    color: ['#a06060', '#be8080'],   /* 紅梅 */
+    files: [
+      { name: '出勤異常報告_202605.html', type: 'html', size: '112 KB' },
+      { name: '加班統計_202604.xlsx', type: 'xlsx', size: '54 KB' },
+    ],
+    prompt: `請每天下午 18:00 讀取今日打卡記錄 Excel，對照班表 Excel，自動找出遲到（09:10 後打卡）、早退（17:50 前下班）、缺勤的員工，產出視覺化出勤異常報告，異常項目以紅色標記，整理後寄給各部門主管。`,
+    date: '2026-05-07'
+  },
+  {
+    id: 10,
+    dept: 'hr',
+    deptLabel: '人資部',
+    person: '鄭志明',
+    title: '招募進度追蹤儀表板',
+    desc: '整合各職缺進度，以 HTML 儀表板呈現每個職缺的面試階段、面試官、排程日期，並自動計算平均招募天數與各階段轉換率。',
+    tags: ['招募', 'Dashboard', 'HR'],
+    color: ['#a06060', '#be8080'],
+    files: [
+      { name: '招募進度_202605.html', type: 'html', size: '78 KB' },
+    ],
+    prompt: `請建立一個招募進度追蹤 HTML 儀表板，從「招募追蹤.xlsx」讀取資料，以看板方式呈現每個職缺目前的面試階段（初篩→一面→二面→錄取/放棄），並計算各職缺的平均招募天數與各階段轉換率，配色用暖紅色系，輸出為單一 HTML 檔。`,
+    date: '2026-04-30'
+  },
+  {
+    id: 11,
+    dept: 'prod',
+    deptLabel: '生產部',
+    person: '許建國',
+    title: '生產日報自動彙整',
+    desc: '每日自動收集各線產量數據，彙整成生產日報並比對目標達成率，自動標記未達標品項，產出管理層所需的精簡 PDF 摘要報告。',
+    tags: ['生產', 'PDF', '日報'],
+    color: ['#5a7e4e', '#74a065'],   /* 若草 */
+    files: [
+      { name: '生產日報_20260508.pdf', type: 'pdf', size: '185 KB' },
+      { name: '月產量趨勢_202605.html', type: 'html', size: '98 KB' },
+    ],
+    prompt: `請每天下午 17:00 讀取各產線的「日產量數據.xlsx」，與當月目標比較計算達成率，未達標品項以紅色標記，產出精簡的 PDF 生產日報（A4 單頁），同時產出 HTML 版本含月度趨勢折線圖，並寄給廠長和生管主管。`,
+    date: '2026-05-08'
+  },
+  {
+    id: 12,
+    dept: 'it',
+    deptLabel: '採購部',
+    person: '洪雅雯',
+    title: '採購比價分析報表',
+    desc: '輸入詢價資料後，自動比較各供應商報價，計算含稅單價差異，以視覺化圖表呈現，並產出正式比價 Excel 表供簽核，節省每次約 3 小時作業時間。',
+    tags: ['採購', 'Excel', '比價'],
+    color: ['#9e7840', '#bc9858'],   /* 山吹 yamabuki */
+    files: [
+      { name: '比價分析_202605.xlsx', type: 'xlsx', size: '48 KB' },
+      { name: '比價分析_202605.html', type: 'html', size: '76 KB' },
+    ],
+    prompt: `我有三家供應商的報價資料（如附 Excel），請比較各供應商的含稅單價、交期、最小訂量，用長條圖視覺化呈現價格差異，找出最低價供應商並說明理由，同時產出正式比價分析 Excel 表（含建議採購商欄位），供主管簽核用。`,
+    date: '2026-05-01'
+  }
+];
+
+/* ─────────────────────────────────────────
+   State
+───────────────────────────────────────── */
+let currentDept = 'all';
+let currentSearch = '';
+let currentView = 'grid';
+
+/* ─────────────────────────────────────────
+   Helpers
+───────────────────────────────────────── */
+const FILE_ICONS = {
+  html:  { icon: '⌨', bg: '#e0f2fe', label: 'HTML' },
+  xlsx:  { icon: '⊞', bg: '#dcfce7', label: 'XLSX' },
+  pdf:   { icon: '⊟', bg: '#fee2e2', label: 'PDF' },
+  pptx:  { icon: '⊠', bg: '#fef3c7', label: 'DOCX' },
+  docx:  { icon: '⊠', bg: '#fef3c7', label: 'DOCX' },
+};
+
+function getInitials(name) {
+  return name.charAt(0);
+}
+
+function deptChipClass(dept) {
+  const map = { mis: 'mis', biz: 'biz', fin: 'fin', hr: 'hr', prod: 'prod', it: 'it' };
+  return map[dept] || 'it';
+}
+
+function filteredApps() {
+  return APPS.filter(app => {
+    const matchDept = currentDept === 'all' || app.dept === currentDept;
+    const q = currentSearch.toLowerCase();
+    const matchSearch = !q ||
+      app.person.includes(q) ||
+      app.title.toLowerCase().includes(q) ||
+      app.desc.toLowerCase().includes(q) ||
+      app.tags.some(t => t.toLowerCase().includes(q)) ||
+      app.deptLabel.includes(q);
+    return matchDept && matchSearch;
+  });
+}
+
+/* ─────────────────────────────────────────
+   Render
+───────────────────────────────────────── */
+function renderCards() {
+  const grid = document.getElementById('cardGrid');
+  const empty = document.getElementById('emptyState');
+  const apps = filteredApps();
+  const badge = document.getElementById('resultsCountBadge');
+  badge.textContent = apps.length + ' 筆';
+
+  if (apps.length === 0) {
+    grid.innerHTML = '';
+    grid.style.display = 'none';
+    empty.classList.add('show');
+    return;
+  }
+  empty.classList.remove('show');
+  grid.style.display = '';
+
+  if (currentView === 'list') {
+    grid.className = 'card-grid list-view';
+    grid.innerHTML = apps.map(app => renderListRow(app)).join('');
+  } else {
+    grid.className = 'card-grid';
+    grid.innerHTML = apps.map(app => renderCard(app)).join('');
+  }
+}
+
+function renderCard(app) {
+  const grad = `linear-gradient(135deg, ${app.color[0]}, ${app.color[1]})`;
+  const chip = deptChipClass(app.dept);
+  const tags = app.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  const fileLabel = app.files.length > 1 ? `${app.files.length} 個成果檔案` : app.files[0].name;
+  return `
+  <div class="app-card" onclick="openModal(${app.id})">
+    <div class="card-header">
+      <div class="card-avatar" style="background: ${grad}">${getInitials(app.person)}</div>
+      <div class="card-meta">
+        <div class="card-name">${app.person}</div>
+        <div class="card-dept-row">
+          <span class="dept-chip ${chip}">${app.deptLabel}</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-app-title">${app.title}</div>
+      <div class="card-desc">${app.desc}</div>
+    </div>
+    <div class="card-footer">
+      <div class="card-tags">${tags}</div>
+      <div class="card-date">${app.date}</div>
+    </div>
+    <div class="card-action">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span class="card-action-text">${fileLabel}</span>
+      <svg class="card-action-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </div>
+  </div>`;
+}
+
+function renderListRow(app) {
+  const grad = `linear-gradient(135deg, ${app.color[0]}, ${app.color[1]})`;
+  const chip = deptChipClass(app.dept);
+  const tags = app.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  return `
+  <div class="app-card">
+    <div class="list-row">
+      <div class="card-avatar" style="background: ${grad}">${getInitials(app.person)}</div>
+      <div class="card-meta">
+        <div class="card-name">${app.person}</div>
+        <div class="card-dept-row"><span class="dept-chip ${chip}">${app.deptLabel}</span></div>
+      </div>
+      <div class="list-content">
+        <div class="list-title">${app.title}</div>
+        <div class="list-desc">${app.desc.substring(0, 60)}…</div>
+      </div>
+      <div class="card-tags" style="flex:none">${tags}</div>
+      <div class="list-right">
+        <div class="card-date">${app.date}</div>
+        <button class="list-view-btn" onclick="openModal(${app.id})">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          查看成果
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ─────────────────────────────────────────
+   Filter
+───────────────────────────────────────── */
+function filterDept(dept, btn) {
+  currentDept = dept;
+  document.querySelectorAll('.dept-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const hint = document.getElementById('filterHint');
+  hint.textContent = dept === 'all' ? '顯示全部單位' : `篩選：${btn.textContent.trim().replace(/\d+/g, '').trim()}`;
+  renderCards();
+}
+
+function setView(view) {
+  currentView = view;
+  document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
+  document.getElementById('listViewBtn').classList.toggle('active', view === 'list');
+  renderCards();
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  currentSearch = this.value;
+  renderCards();
+});
+
+/* ─────────────────────────────────────────
+   Modal
+───────────────────────────────────────── */
+function openModal(id) {
+  const app = APPS.find(a => a.id === id);
+  if (!app) return;
+
+  const grad = `linear-gradient(135deg, ${app.color[0]}, ${app.color[1]})`;
+  const chip = deptChipClass(app.dept);
+
+  document.getElementById('modalAvatar').style.background = grad;
+  document.getElementById('modalAvatar').textContent = getInitials(app.person);
+  document.getElementById('modalTitle').textContent = app.title;
+  document.getElementById('modalSub').innerHTML =
+    `<span class="dept-chip ${chip}" style="display:inline-flex">${app.deptLabel}</span>&ensp;${app.person}&ensp;·&ensp;${app.date}`;
+
+  document.getElementById('modalDesc').textContent = app.desc;
+
+  document.getElementById('modalPrompt').textContent = app.prompt || '（尚未提供）';
+  document.getElementById('promptCopyBtn').classList.remove('copied');
+  document.getElementById('promptCopyBtn').innerHTML = `
+    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    複製`;
+
+  document.getElementById('modalTags').innerHTML =
+    app.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
+
+  document.getElementById('modalFiles').innerHTML = app.files.map(f => {
+    const fi = FILE_ICONS[f.type] || { icon: '◻', bg: '#f1f5f9', label: f.type.toUpperCase() };
+    return `
+    <a class="file-item" href="${f.name}" target="_blank" onclick="event.stopPropagation()">
+      <div class="file-icon ${f.type}" style="background:${fi.bg}; color: ${app.color[0]}; font-size:16px">${fi.icon}</div>
+      <div class="file-name">${f.name}</div>
+      <div class="file-size">${f.size}</div>
+      <svg class="file-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </a>`;
+  }).join('');
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function copyPrompt() {
+  const text = document.getElementById('modalPrompt').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('promptCopyBtn');
+    btn.classList.add('copied');
+    btn.innerHTML = `
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      已複製`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        複製`;
+    }, 2000);
+  });
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalDirect();
+});
+
+/* ─────────────────────────────────────────
+   Init
+───────────────────────────────────────── */
+renderCards();
+</script>
+</body>
+</html>
